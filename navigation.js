@@ -32,22 +32,27 @@ function Panel(num, url) {
     container.appendChild(content);
   }).catch(console.error);
 
+
+  this.handleGestureStart = this.handleGestureStart.bind(this);
+  this.handleGestureMove = this.handleGestureMove.bind(this);
+  this.handleGestureEnd = this.handleGestureEnd.bind(this);
+
   if(window.PointerEvent) {
     //Add Pointer event listener
-    content.addEventListener('pointerdown',   this.handleGestureStart.bind(this), false);
-    content.addEventListener('pointermove',   this.handleGestureMove.bind(this), false);
-    content.addEventListener('pointerup',     this.handleGestureEnd.bind(this), false);
-    content.addEventListener('pointercancel', this.handleGestureEnd.bind(this), false);
+    content.addEventListener('pointerdown',   this.handleGestureStart, false);
+    content.addEventListener('pointermove',   this.handleGestureMove, false);
+    content.addEventListener('pointerup',     this.handleGestureEnd, false);
+    content.addEventListener('pointercancel', this.handleGestureEnd, false);
 
   } else {
     // Add Touch Listener
-    content.addEventListener('touchstart',  this.handleGestureStart.bind(this), false);
-    content.addEventListener('touchmove',   this.handleGestureMove.bind(this), false);
-    content.addEventListener('touchend',    this.handleGestureEnd.bind(this), false);
-    content.addEventListener('touchcancel', this.handleGestureEnd.bind(this), false);
+    content.addEventListener('touchstart',  this.handleGestureStart, false);
+    content.addEventListener('touchmove',   this.handleGestureMove, false);
+    content.addEventListener('touchend',    this.handleGestureEnd, false);
+    content.addEventListener('touchcancel', this.handleGestureEnd, false);
 
     // Mouse listener
-    content.addEventListener('mousedown',   this.handleGestureStart.bind(this), false);
+    content.addEventListener('mousedown',   this.handleGestureStart, false);
   }
 
   this.pos = {x:null, y:null};
@@ -65,8 +70,8 @@ Panel.prototype.handleGestureStart = function (evt) {
   if(window.PointerEvent) {
     evt.target.setPointerCapture(evt.pointerId);
   } else {
-    document.addEventListener('mousemove', this.handleGestureMove.bind(this), false);
-    document.addEventListener('mouseup', this.handleGestureEnd.bind(this), false);
+    document.addEventListener('mousemove', this.handleGestureMove, false);
+    document.addEventListener('mouseup', this.handleGestureEnd, false);
   }
 
   initialTouchPos = getGesturePointFromEvent(evt);
@@ -90,8 +95,8 @@ Panel.prototype.handleGestureEnd = function (evt) {
   if(window.PointerEvent) {
     evt.target.releasePointerCapture(evt.pointerId);
   } else {
-    document.removeEventListener('mouseup', this.handleGestureEnd.bind(this), false);
-    document.removeEventListener('mousemove', this.handleGestureMove.bind(this), false);
+    document.removeEventListener('mouseup', this.handleGestureEnd, false);
+    document.removeEventListener('mousemove', this.handleGestureMove, false);
   }
 
   this.subclassGestureEnd();
@@ -225,7 +230,6 @@ Title.prototype.subclassGestureEnd = function () {
       this.jump(this.pos.y);
     } else {
       this.realign();
-      console.log('test');
     }
   } else {
     if(this.pos.x < -clientWidth/5) {
