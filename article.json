@@ -1,5 +1,4 @@
 {
-  "cards":[],
-  "inner":[],
-  "stylesheets":[]
+  "panels":5,
+  "stylesheets":["mystyles.css", "sytylsesheeet2.css"]
 }

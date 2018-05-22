@@ -58,6 +58,8 @@ Panel.prototype.handleGestureStart = function (evt) {
   evt.preventDefault();
   if(evt.touches && evt.touches.length > 1) return;
 
+  this.pos.x = 0;
+
   console.log('Gesture start at:', this.num);
 
   if(window.PointerEvent) {
@@ -92,25 +94,15 @@ Panel.prototype.handleGestureEnd = function (evt) {
     document.removeEventListener('mousemove', this.handleGestureMove.bind(this), false);
   }
 
-  // TODO: 
-
-  if(!this.vScroll) {
-    if(this.pos.x < -clientWidth/4) {
-      titles[this.num + i].realign(true);
-    } else if(this.pos.x > clientWidth/4) {
-      titles[this.num - i].realign(true);
-    } else {
-      this.realign();
-    }
-  }
-
-
+  this.subclassGestureEnd();
   initialTouchPos = null;
 };
 
 Panel.prototype.onAnimFrame = function() {
   console.error('No onAnimFrame defined');
 }
+
+Panel.prototype.subclassGestureEnd = function () {};
 
 Panel.prototype.transformTo = function(x, y)  {
   let content = this.content;
@@ -121,26 +113,56 @@ Panel.prototype.transformTo = function(x, y)  {
   content.style.MozTransform = style;
   content.style.msTransform = style;
   content.style.transform = style;
-}
-
-Panel.prototype.next = function () {
-  let nextPanel = headers[this.num + 1];
-  this.content.style.zIndex = '';
-  nextPanel.content.style.zIndex = 1;
 };
 
-Panel.prototype.realign = function () {
-  let panel = this.content;
-  anime({
-    targets: panel,
-    translateX: 0,
-    translateY: 0,
-    duration: 250,
-    easing: 'easeInOutQuad',
-    complete: function() {
+Panel.prototype.next = function () {
+  let nextPanel = title[this.num + 1];
+  nextPanel.realign(0);
+  nextPanel.content.style.zIndex = 1;
+  this.realign(-1);
+  this.content.style.zIndex = '';
+};
 
+Panel.prototype.prev = function () {
+  let prevPanel = title[this.num - 1];
+  prevPanel.realign(0);
+  prevPanel.content.style.zIndex = 1;
+  this.realign(1);
+  this.content.style.zIndex = '';
+};
+
+Panel.prototype.realign = function (x, y) {
+  x = x || 0;
+  y = y || 0;
+  let panel = this;
+  anime({
+    targets: panel.content,
+    translateX: clientWidth * x,
+    translateY: clientHeight * y,
+    duration: 250,
+    easing: 'easeOutQuad',
+    complete: function() {
+      panel.pos.x = clientWidth * x;
+      panel.pos.y = clientHeight * y;
     }
   });
+};
+
+Panel.prototype.jump = function (y) {
+  let innerPanel = inner[this.num];
+  let titlePanel = title[this.num];
+
+  if(titlePanel === this) {
+    innerPanel.realign(0);
+    innerPanel.content.style.zIndex = 1;
+    this.realign(0, -1)
+  } else {
+    titlePanel.realign(0);
+    titlePanel.content.style.zIndex = 1;
+    this.realign(0, 1);
+  }
+
+  this.content.style.zIndex = ''
 };
 // #### PANEL DECLARATION END
 
@@ -179,7 +201,7 @@ Title.prototype.onAnimFrame = function () {
   if(vScroll) {
     this.vScroll = vScroll = !(Math.abs(xDiff) > Math.abs(yDiff) * 2 + 20);
   } else {
-    this.vScroll = vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
+    if(innerPanel) this.vScroll = vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
   }
 
 
@@ -196,6 +218,25 @@ Title.prototype.onAnimFrame = function () {
 
   rafPending = false;
 };
+
+Title.prototype.subclassGestureEnd = function () {
+  if(this.vScroll) {
+    if(Math.abs(this.pos.y) > Math.abs(clientHeight/8)) {
+      this.jump(this.pos.y);
+    } else {
+      this.realign();
+      console.log('test');
+    }
+  } else {
+    if(this.pos.x < -clientWidth/5) {
+      this.next();
+    } else if(this.pos.x > clientWidth/5) {
+      this.prev();
+    } else {
+      this.realign();
+    }
+  }
+};
 // #### TITLE DECLARATION END
 
 
@@ -206,45 +247,69 @@ function Inner(num, url) {
   'use strict';
   Panel.call(this, num, url);
   let content = this.content;
+  content.style.height = 'initial';
   this.vScroll = true;
+
+  // TODO: Scroll tracker with variable size based on scrollHeight prop
+  // updates onAnimFrame
 }
 Inner.prototype = Object.create(Panel.prototype);
 
 Inner.prototype.onAnimFrame = function() {
-    if(!rafPending) return;
-    if(!initialTouchPos) { rafPending = false; return; }
+  if(!rafPending) return;
+  if(!initialTouchPos) { rafPending = false; return; }
 
-    let content = this.content;
-    let vScroll = this.vScroll;
+  let content = this.content;
+  let vScroll = this.vScroll;
 
-    let nextPanel = title[this.num + 1];
-    let prevPanel = title[this.num - 1];
-    let innerPanel = inner[this.num];
+  let nextPanel = title[this.num + 1];
+  let prevPanel = title[this.num - 1];
+  let titlePanel = title[this.num];
 
-    let xDiff = initialTouchPos.x - lastTouchPos.x;
-    let yDiff = initialTouchPos.y - lastTouchPos.y;
+  let xDiff = initialTouchPos.x - lastTouchPos.x;
+  let yDiff = initialTouchPos.y - lastTouchPos.y;
 
-    if(yDiff > clientHeight) yDiff = clientHeight;
-    if(!prevPanel && xDiff < 0) xDiff = 0;
-    if(!nextPanel && xDiff > 0) xDiff = 0;
+  if(yDiff > clientHeight) yDiff = clientHeight;
+  if(!prevPanel && xDiff < 0) xDiff = 0;
+  if(!nextPanel && xDiff > 0) xDiff = 0;
 
-    if(vScroll) {
-      vScroll = !(Math.abs(xDiff) > Math.abs(yDiff) * 2 + 20);
-    } else {
-      vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
+  if(vScroll) {
+    this.vScroll = vScroll = !(Math.abs(xDiff) > Math.abs(yDiff) * 2 + 20);
+  } else {
+    this.vScroll = vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
+  }
+
+
+  if(vScroll) {
+    if(titlePanel) titlePanel.transformTo(0, this.pos.y - yDiff - clientHeight);
+    this.transformTo(0, this.pos.y - yDiff);
+    initialTouchPos = lastTouchPos;
+  } else {
+    if(nextPanel) nextPanel.transformTo(-xDiff + clientWidth);
+    if(prevPanel) prevPanel.transformTo(-xDiff - clientWidth);
+    this.transformTo(-xDiff, 0);
+  }
+  rafPending = false;
+};
+
+Inner.prototype.subclassGestureEnd = function () {
+  if(this.vScroll) {
+    if(this.pos.y > 0) {
+      if(this.pos.y > clientHeight / 5) {
+        this.jump(this.pos.y);
+      } else {
+        this.realign();
+      }
     }
-
-
-    if(vScroll) {
-      if(innerPanel) innerPanel.transformTo(0, -yDiff + clientHeight);
-      this.transformTo(0, -yDiff);
+  } else {
+    if(this.pos.x < -clientWidth / 5) {
+      this.next();
+    } else if(this.pos.x > clientWidth / 5) {
+      this.prev();
     } else {
-      if(nextPanel) nextPanel.transformTo(-xDiff + clientWidth);
-      if(prevPanel) prevPanel.transformTo(-xDiff - clientWidth);
-      this.transformTo(-xDiff, 0);
+      this.realign();
     }
-
-    rafPending = false;
+  }
 };
 
 // #### INNER DECLARATION END
