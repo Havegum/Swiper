@@ -109,11 +109,13 @@ Panel.prototype.onAnimFrame = function() {
 
 Panel.prototype.subclassGestureEnd = function () {};
 
-Panel.prototype.transformTo = function(x, y)  {
+Panel.prototype.transformTo = function(x, y, o)  {
   let content = this.content;
-  this.pos.x = x = +x || 0;
-  this.pos.y = y = +y || 0;
-  let style = 'translateX('+x+'px) translateY('+y+'px)'
+
+  if(!o || !o.x) this.pos.x = x = +x || 0;
+  if(!o || !o.y) this.pos.y = y = +y || 0;
+  // TODO: Persistent Y on x-scroll for inner panels
+  let style = 'translateX('+this.pos.x+'px) translateY('+this.pos.y+'px)';
   content.style.webkitTransform = style;
   content.style.MozTransform = style;
   content.style.msTransform = style;
@@ -137,18 +139,23 @@ Panel.prototype.prev = function () {
 };
 
 Panel.prototype.realign = function (x, y) {
-  x = x || 0;
-  y = y || 0;
   let panel = this;
+
+  x = +x || 0;
+  y = +y || 0;
+
+  x = (x*x <= 1 ? clientWidth  * x : x);
+  y = (y*y <= 1 ? clientHeight * y : y);
+
   anime({
     targets: panel.content,
-    translateX: clientWidth * x,
-    translateY: clientHeight * y,
+    translateX: x,
+    translateY: y,
     duration: 250,
     easing: 'easeOutQuad',
     complete: function() {
-      panel.pos.x = clientWidth * x;
-      panel.pos.y = clientHeight * y;
+      panel.pos.x = x;
+      panel.pos.y = y;
     }
   });
 };
@@ -185,7 +192,6 @@ function Title(num, url) {
 Title.prototype = Object.create(Panel.prototype);
 
 Title.prototype.onAnimFrame = function () {
-
   if(!rafPending) return;
   if(!initialTouchPos) { rafPending = false; return; }
 
@@ -209,7 +215,6 @@ Title.prototype.onAnimFrame = function () {
     if(innerPanel) this.vScroll = vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
   }
 
-
   if(vScroll) {
     if(innerPanel)  {
       innerPanel.transformTo(0, -yDiff + clientHeight);
@@ -218,18 +223,20 @@ Title.prototype.onAnimFrame = function () {
   } else {
     if(nextPanel) nextPanel.transformTo(-xDiff + clientWidth);
     if(prevPanel) prevPanel.transformTo(-xDiff - clientWidth);
-    this.transformTo(-xDiff, 0);
+    this.transformTo(-xDiff, 0, true);
   }
 
   rafPending = false;
 };
 
 Title.prototype.subclassGestureEnd = function () {
+  let innerPanel = inner[this.num];
   if(this.vScroll) {
     if(Math.abs(this.pos.y) > Math.abs(clientHeight/8)) {
       this.jump(this.pos.y);
     } else {
       this.realign();
+      if(innerPanel) innerPanel.realign(0, 1)
     }
   } else {
     if(this.pos.x < -clientWidth/5) {
@@ -291,7 +298,7 @@ Inner.prototype.onAnimFrame = function() {
   } else {
     if(nextPanel) nextPanel.transformTo(-xDiff + clientWidth);
     if(prevPanel) prevPanel.transformTo(-xDiff - clientWidth);
-    this.transformTo(-xDiff, 0);
+    this.transformTo(-xDiff, false);
   }
   rafPending = false;
 };
@@ -304,6 +311,9 @@ Inner.prototype.subclassGestureEnd = function () {
       } else {
         this.realign();
       }
+    } else {
+      let maxHeight = this.content.scrollHeight - clientHeight;
+      if(maxHeight < -this.pos.y) this.realign(0, -maxHeight);
     }
   } else {
     if(this.pos.x < -clientWidth / 5) {
