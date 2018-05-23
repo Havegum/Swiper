@@ -109,13 +109,22 @@ Panel.prototype.onAnimFrame = function() {
 
 Panel.prototype.subclassGestureEnd = function () {};
 
-Panel.prototype.transformTo = function(x, y, o)  {
+Panel.prototype.transformTo = function(x, y)  {
   let content = this.content;
 
-  if(!o || !o.x) this.pos.x = x = +x || 0;
-  if(!o || !o.y) this.pos.y = y = +y || 0;
+
+  if (x !== false) {
+    this.pos.x = +x || 0;
+  }
+
+  if(y !== false) {
+    this.pos.y = +y || 0;
+  }
+
   // TODO: Persistent Y on x-scroll for inner panels
-  let style = 'translateX('+this.pos.x+'px) translateY('+this.pos.y+'px)';
+  console.log('x', this.pos.x, '--- y', this.pos.y);
+  console.log();
+  let style = 'translateX(' + this.pos.x + 'px) translateY(' + this.pos.y + 'px)';
   content.style.webkitTransform = style;
   content.style.MozTransform = style;
   content.style.msTransform = style;
@@ -126,7 +135,7 @@ Panel.prototype.next = function () {
   let nextPanel = title[this.num + 1];
   nextPanel.realign(0);
   nextPanel.content.style.zIndex = 1;
-  this.realign(-1);
+  this.realign(-1, false);
   this.content.style.zIndex = '';
 };
 
@@ -134,18 +143,26 @@ Panel.prototype.prev = function () {
   let prevPanel = title[this.num - 1];
   prevPanel.realign(0);
   prevPanel.content.style.zIndex = 1;
-  this.realign(1);
+  this.realign(1, false);
   this.content.style.zIndex = '';
 };
 
 Panel.prototype.realign = function (x, y) {
   let panel = this;
 
-  x = +x || 0;
-  y = +y || 0;
+  if(x === false) {
+    x = panel.pos.x;
+  } else {
+    x = +x || 0;
+    x = (x*x <= 1 ? clientWidth  * x : x);
+  }
 
-  x = (x*x <= 1 ? clientWidth  * x : x);
-  y = (y*y <= 1 ? clientHeight * y : y);
+  if(y === false) {
+    y = panel.pos.y;
+  } else {
+    y = +y || 0;
+    y = (y*y <= 1 ? clientHeight * y : y);
+  }
 
   anime({
     targets: panel.content,
@@ -209,22 +226,35 @@ Title.prototype.onAnimFrame = function () {
   if(!prevPanel && xDiff < 0) xDiff = 0;
   if(!nextPanel && xDiff > 0) xDiff = 0;
 
+
+  let vScrollChange = vScroll === true;
   if(vScroll) {
     this.vScroll = vScroll = !(Math.abs(xDiff) > Math.abs(yDiff) * 2 + 20);
+    // Magic number
   } else {
     if(innerPanel) this.vScroll = vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
   }
+  vScrollChange = !vScroll === vScrollChange;
+
 
   if(vScroll) {
     if(innerPanel)  {
       innerPanel.transformTo(0, -yDiff + clientHeight);
       this.transformTo(0, -yDiff);
+      if(vScrollChange) {
+        if(nextPanel) nextPanel.transformTo(-clientWidth);
+        if(prevPanel) prevPanel.transformTo(clientWidth);
+      }
     }
   } else {
     if(nextPanel) nextPanel.transformTo(-xDiff + clientWidth);
     if(prevPanel) prevPanel.transformTo(-xDiff - clientWidth);
-    this.transformTo(-xDiff, 0, true);
+    this.transformTo(-xDiff, 0);
+    if(vScrollChange && innerPanel) {
+      innerPanel.transformTo(0, clientHeight)
+    }
   }
+
 
   rafPending = false;
 };
@@ -284,17 +314,24 @@ Inner.prototype.onAnimFrame = function() {
   if(!prevPanel && xDiff < 0) xDiff = 0;
   if(!nextPanel && xDiff > 0) xDiff = 0;
 
+  let vScrollChange = vScroll === true;
   if(vScroll) {
     this.vScroll = vScroll = !(Math.abs(xDiff) > Math.abs(yDiff) * 2 + 20);
   } else {
     this.vScroll = vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
   }
-
+  vScrollChange = vScroll === vScrollChange;
 
   if(vScroll) {
     if(titlePanel) titlePanel.transformTo(0, this.pos.y - yDiff - clientHeight);
     this.transformTo(0, this.pos.y - yDiff);
     initialTouchPos = lastTouchPos;
+
+    if(vScrollChange) {
+      if(nextPanel) nextPanel.transformTo(clientWidth);
+      if(prevPanel) prevPanel.transformTo(-clientWidth);
+    }
+
   } else {
     if(nextPanel) nextPanel.transformTo(-xDiff + clientWidth);
     if(prevPanel) prevPanel.transformTo(-xDiff - clientWidth);
@@ -321,7 +358,12 @@ Inner.prototype.subclassGestureEnd = function () {
     } else if(this.pos.x > clientWidth / 5) {
       this.prev();
     } else {
-      this.realign();
+      this.realign(0, false);
+      if(this.pos.x > 0 && title[this.num - 1]) {
+        title[this.num - 1].realign(-1);
+      } else if(this.pos.x < 0 && title[this.num + 1]) {
+        title[this.num + 1].realign(1);
+      }
     }
   }
 };
