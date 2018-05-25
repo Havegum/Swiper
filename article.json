@@ -1,4 +1,29 @@
 {
-  "panels":5,
-  "stylesheets":["mystyles.css", "sytylsesheeet2.css"]
+  "stylesheets":["mystyles.css", "sytylsesheeet2.css"],
+  "panels": [
+    {
+      "id":0,
+      "hasInner":false,
+      "styles":[],
+      "url":"./0-t.html"
+    },
+    {
+      "id":1,
+      "hasInner":true,
+      "styles":[],
+      "url":"./1-t.html"
+    },
+    {
+      "id":2,
+      "hasInner":true,
+      "styles":[],
+      "url":"./2-t.html"
+    },
+    {
+      "id":3,
+      "hasInner":false,
+      "styles":[],
+      "url":"./3-t.html"
+    }
+  ]
 }

@@ -18,20 +18,19 @@ window.onresize = function() {
 };
 
 // #### PANEL DECLARATION START
-function Panel(num, url) {
+function Panel(obj) {
   'use strict';
-  this.num = num;
+  this.num = +obj.id;
+  this.nav = obj.nav;
   let panel = this;
   let content = this.content = document.createElement('div');
   content.classList.add('card');
-  content.style.transform = 'translate('+clientWidth+'px,0)'
 
-  let xhr = this.xhr = getURL(url);
-  xhr.then(function(response) {
+  this.xhr = getURL(obj.url);
+  this.xhr.then(function(response) {
     content.innerHTML = response;
     container.appendChild(content);
   }).catch(console.error);
-
 
   this.handleGestureStart = this.handleGestureStart.bind(this);
   this.handleGestureMove = this.handleGestureMove.bind(this);
@@ -55,7 +54,7 @@ function Panel(num, url) {
     content.addEventListener('mousedown',   this.handleGestureStart, false);
   }
 
-  this.pos = {x:null, y:null};
+  this.pos = { x:null, y:null };
   this.vScroll = false;
 }
 
@@ -88,7 +87,6 @@ Panel.prototype.handleGestureMove = function (evt) {
   window.requestAnimationFrame(this.onAnimFrame.bind(this));
 };
 
-
 Panel.prototype.handleGestureEnd = function (evt) {
   if(evt.touches && evt.touches.length > 0) return;
 
@@ -112,7 +110,6 @@ Panel.prototype.subclassGestureEnd = function () {};
 Panel.prototype.transformTo = function(x, y)  {
   let content = this.content;
 
-
   if (x !== false) {
     this.pos.x = +x || 0;
   }
@@ -121,9 +118,6 @@ Panel.prototype.transformTo = function(x, y)  {
     this.pos.y = +y || 0;
   }
 
-  // TODO: Persistent Y on x-scroll for inner panels
-  console.log('x', this.pos.x, '--- y', this.pos.y);
-  console.log();
   let style = 'translateX(' + this.pos.x + 'px) translateY(' + this.pos.y + 'px)';
   content.style.webkitTransform = style;
   content.style.MozTransform = style;
@@ -199,12 +193,49 @@ Panel.prototype.jump = function (y) {
 
 
 // #### TITLE DECLARATION START
-function Title(num, url) {
+function Title(obj) {
   'use strict';
-  Panel.call(this, num, url);
+  Panel.call(this, obj);
 
+  let num = this.num;
+  let nav = this.nav;
   let content = this.content;
-  if(num === 0) this.xhr.then(function() { content.style.zIndex = 1; });
+
+  if(obj.hasInner === true) {
+    inner[num] = new Inner({
+      id: num,
+      url: './' + num + '-i.html'
+    });
+  }
+
+  this.xhr.then(function() {
+    if(nav.left) {
+      let leftArrow = document.createElement('img');
+      leftArrow.src = './arrow-left.svg';
+      leftArrow.classList.add('arrow');
+      leftArrow.style.left = 0;
+      leftArrow.onclick = this.prev.bind(this);
+      content.appendChild(leftArrow);
+    }
+
+    if(nav.right) {
+      let rightArrow = document.createElement('img');
+      rightArrow.src = './arrow-right.svg';
+      rightArrow.classList.add('arrow');
+      rightArrow.style.right = 0;
+      rightArrow.onclick = this.next.bind(this);
+      content.appendChild(rightArrow);
+    }
+
+    if(num === 0) {
+      this.pos = { x:0, y:0 };
+      content.style.zIndex = 1;
+      content.style.transform = 'translateX(0) translateY(0)';
+    } else {
+      this.pos = { x:clientWidth, y:0 };
+      content.style.transform = 'translateX(' + this.pos.x + 'px)';
+    }
+  }.bind(this));
 }
 Title.prototype = Object.create(Panel.prototype);
 
@@ -214,6 +245,7 @@ Title.prototype.onAnimFrame = function () {
 
   let content = this.content;
   let vScroll = this.vScroll;
+  let nav = this.nav;
 
   let nextPanel = title[this.num + 1];
   let prevPanel = title[this.num - 1];
@@ -223,8 +255,8 @@ Title.prototype.onAnimFrame = function () {
   let yDiff = initialTouchPos.y - lastTouchPos.y;
 
   if(yDiff < 0) yDiff = 0;
-  if(!prevPanel && xDiff < 0) xDiff = 0;
-  if(!nextPanel && xDiff > 0) xDiff = 0;
+  if(!nav.right && xDiff > 0) xDiff = 0;
+  if(!nav.left && xDiff < 0) xDiff = 0;
 
 
   let vScrollChange = vScroll === true;
@@ -232,25 +264,25 @@ Title.prototype.onAnimFrame = function () {
     this.vScroll = vScroll = !(Math.abs(xDiff) > Math.abs(yDiff) * 2 + 20);
     // Magic number
   } else {
-    if(innerPanel) this.vScroll = vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
+    if(nav.down) this.vScroll = vScroll = (Math.abs(yDiff) > Math.abs(xDiff) * 2 + 20);
   }
   vScrollChange = !vScroll === vScrollChange;
 
 
   if(vScroll) {
-    if(innerPanel)  {
+    if(nav.down)  {
       innerPanel.transformTo(0, -yDiff + clientHeight);
       this.transformTo(0, -yDiff);
       if(vScrollChange) {
-        if(nextPanel) nextPanel.transformTo(-clientWidth);
-        if(prevPanel) prevPanel.transformTo(clientWidth);
+        if(nav.right) nextPanel.transformTo(-clientWidth);
+        if(nav.left) prevPanel.transformTo(clientWidth);
       }
     }
   } else {
-    if(nextPanel) nextPanel.transformTo(-xDiff + clientWidth);
-    if(prevPanel) prevPanel.transformTo(-xDiff - clientWidth);
+    if(nav.right) nextPanel.transformTo(-xDiff + clientWidth);
+    if(nav.left) prevPanel.transformTo(-xDiff - clientWidth);
     this.transformTo(-xDiff, 0);
-    if(vScrollChange && innerPanel) {
+    if(vScrollChange && nav.down) {
       innerPanel.transformTo(0, clientHeight)
     }
   }
@@ -284,11 +316,12 @@ Title.prototype.subclassGestureEnd = function () {
 
 
 // #### INNER DECLARATION START
-function Inner(num, url) {
+function Inner(obj) {
   'use strict';
-  Panel.call(this, num, url);
+  Panel.call(this, obj);
   let content = this.content;
   content.style.height = 'initial';
+  content.style.transform = 'translateY(' + clientHeight + 'px)';
   this.vScroll = true;
 
   // TODO: Scroll tracker with variable size based on scrollHeight prop
@@ -401,18 +434,22 @@ function getURL(url) {
   });
 }
 
-for (let i = 0; i < 2; i++) {
-  title.push(new Title(i, './' + i + '-t.html'));
-}
 
-for (let i = 0; i < 2; i++) {
-  let innerPanel = new Inner(i, './' + i + '-i.html');
-  innerPanel.xhr.then(function() {
-    inner[i] = innerPanel;
-  }).catch(function() {
-    inner[i] = null;
-  });
-}
+getURL('./article.json')
+  .then(JSON.parse)
+  .then(function(json) {
+    for (let i = 0; i < json.panels.length; i++) {
+      let panel = json.panels[i];
+      panel.nav = {
+        left: (+panel.id > 0),
+        right: (+panel.id < json.panels.length - 1),
+        down: panel.hasInner
+      };
+      title[+json.panels[i].id] = new Title(json.panels[i]);
+    }
+    title[0].content.style.transform = '';
+  })
+  .catch(console.error);
 
 for (let i = 0; i < styles.length; i++) {
   let stylesheet = document.createElement('link');
@@ -421,6 +458,5 @@ for (let i = 0; i < styles.length; i++) {
   document.head.appendChild(stylesheet);
 }
 
-title[0].content.style.transform = '';
 
 }());

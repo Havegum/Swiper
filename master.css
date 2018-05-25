@@ -23,3 +23,15 @@
   text-align: center;
   position: absolute;
 }
+
+.arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  height: 100vh;
+  max-height: 50em;
+  max-width: 15vw;
+  cursor: pointer;
+  opacity: .8;
+}
