@@ -174,9 +174,8 @@ Panel.prototype.realign = function (x, y) {
 Panel.prototype.jump = function () {
   let innerPanel = inner[this.num];
   let titlePanel = title[this.num];
-
   if(titlePanel === this) {
-    innerPanel.realign(0);
+    innerPanel.realign(0, 0);
     innerPanel.content.style.zIndex = 1;
     this.realign(0, -1)
   } else {
@@ -200,6 +199,8 @@ function Title(obj) {
   let num = this.num;
   let nav = this.nav;
   let content = this.content;
+  let pendingNav = this.pendingNav = null;
+
 
   if(obj.hasInner === true) {
     inner[num] = new Inner({
@@ -214,7 +215,7 @@ function Title(obj) {
       leftArrow.src = './arrow-left.svg';
       leftArrow.classList.add('arrow');
       leftArrow.style.left = 0;
-      leftArrow.onclick = this.prev.bind(this);
+      leftArrow.onpointerdown = () => { this.pendingNav = this.prev.bind(this); };
       content.appendChild(leftArrow);
     }
 
@@ -223,7 +224,7 @@ function Title(obj) {
       rightArrow.src = './arrow-right.svg';
       rightArrow.classList.add('arrow');
       rightArrow.style.right = 0;
-      rightArrow.onclick = this.next.bind(this);
+      rightArrow.onpointerdown = () => { this.pendingNav = this.next.bind(this); };
       content.appendChild(rightArrow);
     }
 
@@ -231,9 +232,7 @@ function Title(obj) {
       let downArrow = document.createElement('img');
       downArrow.src = './img/arrow-down.svg';
       downArrow.classList.add('down-arrow');
-      console.log(this);
-      downArrow.onclick = this.jump.bind(this);
-
+      downArrow.onpointerdown = () => { this.pendingNav = this.jump.bind(this); }
       content.appendChild(downArrow);
 
     }
@@ -304,23 +303,40 @@ Title.prototype.onAnimFrame = function () {
 
 Title.prototype.subclassGestureEnd = function () {
   let innerPanel = inner[this.num];
+
   if(this.vScroll) {
     if(Math.abs(this.pos.y) > Math.abs(clientHeight/8)) {
       this.jump();
-      console.log(this);
+
+    } else if(typeof this.pendingNav == 'function') {
+      this.pendingNav();
+
     } else {
       this.realign();
       if(innerPanel) innerPanel.realign(0, 1)
     }
+
   } else {
+    let prevPanel = title[this.num - 1];
+    let nextPanel = title[this.num + 1];
+
     if(this.pos.x < -clientWidth/5) {
       this.next();
+
     } else if(this.pos.x > clientWidth/5) {
       this.prev();
+
+    } else if(typeof this.pendingNav == 'function') {
+      this.pendingNav();
+
     } else {
-      this.realign();
+      this.realign(0, 0);
+      if(innerPanel) innerPanel.realign(0, 1);
+      if(prevPanel) prevPanel.realign(-1);
+      if(nextPanel) nextPanel.realign(1);
     }
   }
+  this.pendingNav = null;
 };
 // #### TITLE DECLARATION END
 
