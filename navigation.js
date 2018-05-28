@@ -171,7 +171,7 @@ Panel.prototype.realign = function (x, y) {
   });
 };
 
-Panel.prototype.jump = function (y) {
+Panel.prototype.jump = function () {
   let innerPanel = inner[this.num];
   let titlePanel = title[this.num];
 
@@ -225,6 +225,17 @@ function Title(obj) {
       rightArrow.style.right = 0;
       rightArrow.onclick = this.next.bind(this);
       content.appendChild(rightArrow);
+    }
+
+    if(nav.down) {
+      let downArrow = document.createElement('img');
+      downArrow.src = './img/arrow-down.svg';
+      downArrow.classList.add('down-arrow');
+      console.log(this);
+      downArrow.onclick = this.jump.bind(this);
+
+      content.appendChild(downArrow);
+
     }
 
     if(num === 0) {
@@ -295,7 +306,8 @@ Title.prototype.subclassGestureEnd = function () {
   let innerPanel = inner[this.num];
   if(this.vScroll) {
     if(Math.abs(this.pos.y) > Math.abs(clientHeight/8)) {
-      this.jump(this.pos.y);
+      this.jump();
+      console.log(this);
     } else {
       this.realign();
       if(innerPanel) innerPanel.realign(0, 1)
@@ -377,7 +389,7 @@ Inner.prototype.subclassGestureEnd = function () {
   if(this.vScroll) {
     if(this.pos.y > 0) {
       if(this.pos.y > clientHeight / 5) {
-        this.jump(this.pos.y);
+        this.jump();
       } else {
         this.realign();
       }

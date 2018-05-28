@@ -35,3 +35,48 @@
   cursor: pointer;
   opacity: .8;
 }
+
+/* NAVIGASJONSPILER*/
+/* Til Halvard */
+@-webkit-keyframes arrow-jump {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-1.5vh);
+    -moz-transform: translateY(-1.5vh);
+    -o-transform:translateY(-1.5vh);
+    transform: translateY(-1.5vh);
+  }
+
+  20% { opacity: .9; }
+
+  95% { opacity: .3; }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(1.5vh);
+    -moz-transform: translateY(1.5vh);
+    -o-transform:translateY(1.5vh);
+    transform: translateY(1.5vh);
+  }
+}
+
+.down-arrow {
+  z-index: 2;
+  cursor: pointer;
+
+  width: 14vw;
+  max-width: 10em;
+  object-fit: contain;
+  object-position: center;
+
+  position: absolute;
+  bottom: 2vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+
+  -webkit-animation: arrow-jump 2s linear infinite;
+  -moz-animation: arrow-jump 2s linear infinite;
+  -o-animation: arrow-jump 2s linear infinite;
+  animation: arrow-jump  2s linear infinite;
+}
