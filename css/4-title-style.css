@@ -1,0 +1,49 @@
+/*
+  Overordnet styleark
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Patua+One');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.background-4{
+  background-image: url(../pages/img/tapet.jpg);
+  background-repeat: none;
+  background-size: cover;
+  overflow: hidden;
+  height:100vh;
+  min-width: 100vw;
+  max-width: 100vw;
+  display: flex;
+}
+
+.hovedtittel{
+  display:flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hovedtittel > h1{
+  font-family: "Patua One", cursive;
+  font-weight: 400;
+  font-size: 3.4em;
+  color: #ffffff;
+  text-align: center;
+  margin-top: -10px;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  overflow: hidden;
+  top: 520px;
+  text-shadow: 1px 1px 6px #808080;
+}

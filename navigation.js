@@ -19,7 +19,6 @@ window.onresize = function() {
 
 // #### PANEL DECLARATION START
 function Panel(obj) {
-  'use strict';
   this.num = +obj.id;
   this.nav = obj.nav;
   let panel = this;
@@ -202,17 +201,18 @@ function Title(obj) {
   let pendingNav = this.pendingNav = null;
 
 
-  if(obj.hasInner === true) {
+  if(obj.inner) {
     inner[num] = new Inner({
       id: num,
-      url: './' + num + '-i.html'
+      url: obj.inner
     });
   }
 
   this.xhr.then(function() {
+    let dark = (obj.darkUI ? '-dark' : '');
     if(nav.left) {
       let leftArrow = document.createElement('img');
-      leftArrow.src = './arrow-left.svg';
+      leftArrow.src = `./img/arrow-left${dark}.svg`;
       leftArrow.classList.add('arrow');
       leftArrow.style.left = 0;
       leftArrow.onpointerdown = () => { this.pendingNav = this.prev.bind(this); };
@@ -221,7 +221,7 @@ function Title(obj) {
 
     if(nav.right) {
       let rightArrow = document.createElement('img');
-      rightArrow.src = './arrow-right.svg';
+      rightArrow.src = `./img/arrow-right${dark}.svg`;
       rightArrow.classList.add('arrow');
       rightArrow.style.right = 0;
       rightArrow.onpointerdown = () => { this.pendingNav = this.next.bind(this); };
@@ -230,7 +230,7 @@ function Title(obj) {
 
     if(nav.down) {
       let downArrow = document.createElement('img');
-      downArrow.src = './img/arrow-down.svg';
+      downArrow.src = `./img/arrow-down${dark}.svg`;
       downArrow.classList.add('down-arrow');
       downArrow.onpointerdown = () => { this.pendingNav = this.jump.bind(this); }
       content.appendChild(downArrow);
@@ -466,12 +466,19 @@ function getURL(url) {
 getURL('./article.json')
   .then(JSON.parse)
   .then(function(json) {
+    json.stylesheets.forEach(function loadStyles(url) {
+      let style = document.createElement('link');
+      style.rel = 'stylesheet';
+      style.href = `./css/${url}`;
+      document.head.appendChild(style);
+    });
+
     for (let i = 0; i < json.panels.length; i++) {
       let panel = json.panels[i];
       panel.nav = {
         left: (+panel.id > 0),
         right: (+panel.id < json.panels.length - 1),
-        down: panel.hasInner
+        down: panel.inner
       };
       title[+json.panels[i].id] = new Title(json.panels[i]);
     }

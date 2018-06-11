@@ -1,3 +1,4 @@
+/* Halvard */
 :root {
   --main: #333;
 }
@@ -34,10 +35,10 @@
   max-width: 15vw;
   cursor: pointer;
   opacity: .8;
+  width: initial;
 }
 
-/* NAVIGASJONSPILER*/
-/* Til Halvard */
+/* Animasjon, navigasjon ned */
 @-webkit-keyframes arrow-jump {
   0% {
     opacity: 0;

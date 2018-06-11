@@ -1,29 +1,45 @@
 {
-  "stylesheets":["mystyles.css", "sytylsesheeet2.css"],
+  "stylesheets":[
+    "0-title-style.css",
+    "1-title-style.css",
+    "2-title-style.css",
+    "3-title-style.css",
+    "test.css"
+  ],
   "panels": [
     {
       "id":0,
-      "hasInner":false,
-      "styles":[],
-      "url":"./0-t.html"
+      "url":"./pages/0-title.html"
     },
     {
       "id":1,
-      "hasInner":true,
-      "styles":[],
-      "url":"./1-t.html"
+      "darkUI":true,
+      "url":"./pages/1-title.html"
     },
     {
       "id":2,
-      "hasInner":true,
-      "styles":[],
-      "url":"./2-t.html"
+      "darkUI":true,
+      "url":"./pages/2-title.html"
     },
     {
       "id":3,
-      "hasInner":false,
-      "styles":[],
-      "url":"./3-t.html"
+      "url":"./pages/3-title.html",
+      "inner":"./pages/artikkel1.html"
+    },
+    {
+      "id":4,
+      "url":"./pages/4-title.html",
+      "inner":"./pages/artikkel2.html"
+    },
+    {
+      "id":5,
+      "url":"./pages/5-title.html",
+      "inner":"./pages/artikkel3.html"
+    },
+    {
+      "id":6,
+      "url":"./pages/6-title.html",
+      "inner":"./pages/6-content.html"
     }
   ]
 }
