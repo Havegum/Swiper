@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css?family=Patua+One');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+
+.next-arrow{
+  position: absolute;
+  right: 0;
+  bottom: 1%;
+  width: 70px;
+  z-index: 99;
+}
+.flex{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  background-color: #EFEFEF;
+}
+
+.flex p{
+  color: #282828;
+  font-family: "Raleway", sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  padding: 8%;
+  padding-top: 4%;
+  padding-bottom:4%;
+}
+.flex h1{
+  font-family: "Patua One", cursive;
+  font-weight: 400;
+  font-size: 3em;
+  color: #2A2A2D;
+  text-align: center;
+  padding: 5%;
+  padding-top: 0%;
+  padding-bottom: 0%;
+}
+.flex h2{
+  font-family: "Patua One", cursive;
+  font-weight: 400;
+  font-size: 3em;
+  color: #EFEFEF;
+  text-align: center;
+  padding: 5%;
+  padding-top: 0%;
+  padding-bottom: 0%;
+}
+.flex h3{
+  font-family: "Patua One", cursive;
+  font-weight: 400;
+  font-size: 3em;
+  padding: 8%;
+  padding-top: 0%;
+  padding-bottom: 0%;
+  color: #EFEFEF;
+  margin-bottom: 2px;
+}
+.flex em{
+  font-size: 1.1em;
+}
+.hvit{
+  background-color: #EFEFEF;
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+.svart{
+  background-color: #282828;
+}
+.svart p{
+  color: #EFEFEF;
+}
+.avsnitt3{
+  background: linear-gradient(#EFEFEF,#EFEFEF, orange, #B23E24);
+  margin-top: -2px;
+}
+.avsnitt4{
+  background: linear-gradient(#5E1E14, #282828, #282828, #282828, #282828);
+}
+.avsnitt4 p{
+  color: #EFEFEF;
+}
+.tekstboks{
+  position: absolute;
+  top: 37%;
+  left: 53%;
+  font-family:'Indie Flower', cursive;
+  font-size: 1.4em;
+  font-weight: 400;
+  text-align: left;
+  color: white;
+}
+.boks{
+  background-color: white;
+  margin: 7%;
+}
+.boks p{
+  color: #282828;
+  padding-top: 0px;
+}
+.boks1{
+  background-color: white;
+  margin: 2%;
+  box-shadow: 0px 5px 10px #0002;
+}
+.boks1 p{
+  color: #282828;
+  padding-top: 0px;
+}
+
+body{
+  margin: 0px;
+}
+#sol{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 99;
+}
+#sol2{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 99;
+}
+#land{
+  margin-top: -3px;
+  margin-bottom: -2px;
+}
+#reisen{
+  margin-top: -2px;
+}
+#dager{
+  background-image: url("./img/dager.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90px;
+  padding-top: 4%;
+  padding-bottom:4%;
+}
+#litenOver{
+  color: #282828;
+  font-family: "Raleway", sans-serif;
+  font-size: 1.4em;
+  font-weight: 400;
+  padding: 8%;
+  padding-bottom: 0%;
+  text-align: left;
+}
+#rødt{
+  color: red;
+}
+#akman{
+  width: 100%;
+  height: auto;
+}
+#bok{
+  margin-bottom: -30px;
+}
+#faktaborder{
+  width: 7%;
+  height: 8%;
+  border-bottom: 9px solid #9DB382;
+  margin: 8%;
+  margin-top: 0%;
+  margin-bottom: 0%;
+}
+#uthevet{
+  font-size: 1.6em;
+  font-family: "Patua One", cursive;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+#overkart {
+  width: 100%;
+  position: absolute;
+  top: 35px;
+  z-index: 99;
+  text-align: center;
+}
+#mappen{
+  width:100vw;
+  height:100vh;
+}

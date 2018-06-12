@@ -15,16 +15,6 @@ img {
   height: auto;
 }
 
-.wrapper {
-  background-repeat: none;
-  background-size: cover;
-  overflow: hidden;
-  height:100vh;
-  min-width: 100vw;
-  max-width: 100vw;
-  display: flex;
-}
-
 .hovedtittel {
   display:flex;
   flex-wrap: wrap;

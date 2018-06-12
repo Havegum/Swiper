@@ -14,15 +14,24 @@
   width: 100vw;
   position: relative;
   overflow: hidden;
-}
-
-#container {
   background-color: var(--BG);
 }
 
 .card {
   text-align: center;
   position: absolute;
+}
+
+.wrapper{
+  min-height: 100vh;
+  width:100vw;
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  overflow: hidden;
+  position: relative;
+  background-color: #EFEFEF;
 }
 
 .arrow {

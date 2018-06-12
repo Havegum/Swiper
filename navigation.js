@@ -247,7 +247,7 @@ function Title(obj) {
       } else {
         leftArrow.onmousedown = () => { this.pendingNav = this.prev.bind(this); };
       }
-      content.appendChild(leftArrow);
+      content.getElementsByClassName('wrapper')[0].appendChild(leftArrow);
       this.arrows.push(leftArrow);
     }
 
@@ -261,7 +261,7 @@ function Title(obj) {
       } else {
         rightArrow.onmousedown = () => { this.pendingNav = this.next.bind(this); };
       }
-      content.appendChild(rightArrow);
+      content.getElementsByClassName('wrapper')[0].appendChild(rightArrow);
       this.arrows.push(rightArrow);
     }
 
@@ -322,7 +322,6 @@ Title.prototype.onAnimFrame = function () {
   }
   vScrollChange = !vScroll === vScrollChange;
 
-
   if(vScroll) {
     if(nav.down)  {
       innerPanel.transformTo(0, -yDiff + clientHeight);
@@ -340,8 +339,6 @@ Title.prototype.onAnimFrame = function () {
       innerPanel.transformTo(0, clientHeight)
     }
   }
-
-
   rafPending = false;
 };
 
