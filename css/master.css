@@ -1,6 +1,6 @@
 /* Halvard */
 :root {
-  --main: #333;
+  --BG: #333;
 }
 
 * {
@@ -17,7 +17,7 @@
 }
 
 #container {
-  background-color: var(--main);
+  background-color: var(--BG);
 }
 
 .card {
@@ -59,6 +59,10 @@
     -o-transform:translateY(1.5vh);
     transform: translateY(1.5vh);
   }
+}
+
+.down-arrow-wrapper {
+  opacity: .7;
 }
 
 .down-arrow {

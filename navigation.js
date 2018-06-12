@@ -3,14 +3,15 @@
 
 let title = [],
     inner = [],
-    styles = ['master', 'headers', 'inner'],
     container = document.getElementById('container'),
     clientWidth = window.innerWidth,
     clientHeight = window.innerHeight,
     activePanel,
     rafPending = false,
     initialTouchPos,
-    lastTouchPos;
+    lastTouchPos,
+    swipes = 0,
+    swipeHints = 5;
 
 window.onresize = function() {
   clientWidth = window.innerWidth;
@@ -27,7 +28,8 @@ function Panel(obj) {
 
   this.xhr = getURL(obj.url);
   this.xhr.then(function(response) {
-    content.innerHTML = response;
+    let headlessHTML = response.split(/<body[^>]*>/)[1].split('</body>')[0];
+    content.innerHTML = headlessHTML;
     container.appendChild(content);
   }).catch(console.error);
 
@@ -53,7 +55,7 @@ function Panel(obj) {
     content.addEventListener('mousedown',   this.handleGestureStart, false);
   }
 
-  this.pos = { x:null, y:null };
+  this.pos = { x: null, y: null };
   this.vScroll = false;
 }
 
@@ -63,7 +65,7 @@ Panel.prototype.handleGestureStart = function (evt) {
 
   this.pos.x = 0;
 
-  console.log('Gesture start at:', this.num);
+  // console.log('Gesture start at:', this.num);
 
   if(window.PointerEvent) {
     evt.target.setPointerCapture(evt.pointerId);
@@ -128,16 +130,40 @@ Panel.prototype.next = function () {
   let nextPanel = title[this.num + 1];
   nextPanel.realign(0);
   nextPanel.content.style.zIndex = 1;
+
   this.realign(-1, false);
   this.content.style.zIndex = '';
+
+  if(title[this.num - 1]) title[this.num - 1].realign(-2);
+  if(title[this.num + 2]) title[this.num + 2].realign(1);
+
+  swipes++;
+  if(swipes > swipeHints) anime({
+      targets: nextPanel.arrows,
+      opacity: [.8, 0],
+      duration: 3000,
+      easing: 'easeInQuad'
+    });
 };
 
 Panel.prototype.prev = function () {
   let prevPanel = title[this.num - 1];
   prevPanel.realign(0);
   prevPanel.content.style.zIndex = 1;
+
   this.realign(1, false);
   this.content.style.zIndex = '';
+
+  if(title[this.num + 1]) title[this.num + 1].realign(2);
+  if(title[this.num - 2]) title[this.num - 2].realign(-1);
+
+  swipes++;
+  if(swipes > swipeHints) anime({
+      targets: prevPanel.arrows,
+      opacity: [.8, 0],
+      duration: 3000,
+      easing: 'easeInQuad'
+    });
 };
 
 Panel.prototype.realign = function (x, y) {
@@ -147,7 +173,7 @@ Panel.prototype.realign = function (x, y) {
     x = panel.pos.x;
   } else {
     x = +x || 0;
-    x = (x*x <= 1 ? clientWidth  * x : x);
+    x = (-2 <= x && x <= 2 ? clientWidth * x : x);
   }
 
   if(y === false) {
@@ -209,32 +235,50 @@ function Title(obj) {
   }
 
   this.xhr.then(function() {
+    this.arrows = [];
     let dark = (obj.darkUI ? '-dark' : '');
     if(nav.left) {
       let leftArrow = document.createElement('img');
-      leftArrow.src = `./img/arrow-left${dark}.svg`;
+      leftArrow.src = './img/arrow-left'+dark+'.svg';
       leftArrow.classList.add('arrow');
       leftArrow.style.left = 0;
-      leftArrow.onpointerdown = () => { this.pendingNav = this.prev.bind(this); };
+      if (window.PointerEvent) {
+        leftArrow.onpointerdown = () => { this.pendingNav = this.prev.bind(this); };
+      } else {
+        leftArrow.onmousedown = () => { this.pendingNav = this.prev.bind(this); };
+      }
       content.appendChild(leftArrow);
+      this.arrows.push(leftArrow);
     }
 
     if(nav.right) {
       let rightArrow = document.createElement('img');
-      rightArrow.src = `./img/arrow-right${dark}.svg`;
+      rightArrow.src = './img/arrow-right'+dark+'.svg';
       rightArrow.classList.add('arrow');
       rightArrow.style.right = 0;
-      rightArrow.onpointerdown = () => { this.pendingNav = this.next.bind(this); };
+      if(window.PointerEvent) {
+        rightArrow.onpointerdown = () => { this.pendingNav = this.next.bind(this); };
+      } else {
+        rightArrow.onmousedown = () => { this.pendingNav = this.next.bind(this); };
+      }
       content.appendChild(rightArrow);
+      this.arrows.push(rightArrow);
     }
 
     if(nav.down) {
+      let arrowWrapper = document.createElement('div');
+      arrowWrapper.classList.add('down-arrow-wrapper');
       let downArrow = document.createElement('img');
-      downArrow.src = `./img/arrow-down${dark}.svg`;
+      downArrow.src = './img/arrow-down'+dark+'.svg';
       downArrow.classList.add('down-arrow');
-      downArrow.onpointerdown = () => { this.pendingNav = this.jump.bind(this); }
-      content.appendChild(downArrow);
+      arrowWrapper.appendChild(downArrow);
 
+      if(window.PointerEvent) {
+        downArrow.onpointerdown = () => { this.pendingNav = this.jump.bind(this); }
+      } else {
+        downArrow.onmousedown = () => { this.pendingNav = this.jump.bind(this); }
+      }
+      content.appendChild(arrowWrapper);
     }
 
     if(num === 0) {
@@ -352,7 +396,18 @@ function Inner(obj) {
   content.style.transform = 'translateY(' + clientHeight + 'px)';
   this.vScroll = true;
 
-  // TODO: Scroll tracker with variable size based on scrollHeight prop
+  this.xhr.then(function(response) {
+    let nextArrow = this.content.getElementsByClassName('next-arrow')[0];
+    if(nextArrow) {
+      if(window.PointerEvent) {
+        nextArrow.onpointerdown = this.next.bind(this);
+      } else {
+        nextArrow.onmousedown = this.next.bind(this);
+      }
+    }
+  }.bind(this));
+
+  // IDEA: Scroll tracker with variable size based on scrollHeight prop
   // updates onAnimFrame
 }
 Inner.prototype = Object.create(Panel.prototype);
@@ -408,6 +463,7 @@ Inner.prototype.subclassGestureEnd = function () {
         this.jump();
       } else {
         this.realign();
+        title[this.num].realign(0, -1);
       }
     } else {
       let maxHeight = this.content.scrollHeight - clientHeight;
@@ -428,7 +484,6 @@ Inner.prototype.subclassGestureEnd = function () {
     }
   }
 };
-
 // #### INNER DECLARATION END
 
 
@@ -469,7 +524,7 @@ getURL('./article.json')
     json.stylesheets.forEach(function loadStyles(url) {
       let style = document.createElement('link');
       style.rel = 'stylesheet';
-      style.href = `./css/${url}`;
+      style.href = './css/' + url;
       document.head.appendChild(style);
     });
 
@@ -485,13 +540,4 @@ getURL('./article.json')
     title[0].content.style.transform = '';
   })
   .catch(console.error);
-
-for (let i = 0; i < styles.length; i++) {
-  let stylesheet = document.createElement('link');
-  stylesheet.rel = 'stylesheet';
-  stylesheet.href = './' + styles[i] + '.css';
-  document.head.appendChild(stylesheet);
-}
-
-
 }());
