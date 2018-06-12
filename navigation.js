@@ -127,15 +127,22 @@ Panel.prototype.transformTo = function(x, y)  {
 };
 
 Panel.prototype.next = function () {
-  let nextPanel = title[this.num + 1];
+  let num = this.num;
+  let nextPanel = title[num + 1];
+  if(!nextPanel) return;
   nextPanel.realign(0);
   nextPanel.content.style.zIndex = 1;
 
   this.realign(-1, false);
   this.content.style.zIndex = '';
 
-  if(title[this.num - 1]) title[this.num - 1].realign(-2);
-  if(title[this.num + 2]) title[this.num + 2].realign(1);
+  if(title[num]) title[num].realign(-1);
+  if(title[num - 1]) title[num - 1].realign(-2);
+  if(title[num + 2]) title[num + 2].realign(1);
+
+  if(this instanceof Title && inner[num + 1]) inner[num + 1].realign(0, 1);
+
+  activePanel = nextPanel;
 
   swipes++;
   if(swipes > swipeHints) anime({
@@ -147,15 +154,22 @@ Panel.prototype.next = function () {
 };
 
 Panel.prototype.prev = function () {
-  let prevPanel = title[this.num - 1];
+  let num = this.num;
+  let prevPanel = title[num - 1];
+  if(!prevPanel) return;
   prevPanel.realign(0);
   prevPanel.content.style.zIndex = 1;
 
   this.realign(1, false);
   this.content.style.zIndex = '';
 
-  if(title[this.num + 1]) title[this.num + 1].realign(2);
-  if(title[this.num - 2]) title[this.num - 2].realign(-1);
+  if(title[num]) title[num].realign(1);
+  if(title[num + 1]) title[num + 1].realign(2);
+  if(title[num - 2]) title[num - 2].realign(-1);
+
+  if(this instanceof Title && inner[num - 1]) inner[num - 1].realign(0, 1);
+
+  activePanel = prevPanel;
 
   swipes++;
   if(swipes > swipeHints) anime({
@@ -199,14 +213,22 @@ Panel.prototype.realign = function (x, y) {
 Panel.prototype.jump = function () {
   let innerPanel = inner[this.num];
   let titlePanel = title[this.num];
-  if(titlePanel === this) {
+
+  if(this === titlePanel) {
+    if(!innerPanel) return;
+
     innerPanel.realign(0, 0);
     innerPanel.content.style.zIndex = 1;
-    this.realign(0, -1)
+    this.realign(0, -1);
+
+
+    activePanel = innerPanel;
   } else {
     titlePanel.realign(0);
     titlePanel.content.style.zIndex = 1;
     this.realign(0, 1);
+
+    activePanel = titlePanel;
   }
 
   this.content.style.zIndex = ''
@@ -535,6 +557,22 @@ getURL('./article.json')
       title[+json.panels[i].id] = new Title(json.panels[i]);
     }
     title[0].content.style.transform = '';
+    activePanel = title[0];
+    document.addEventListener('keydown', function(evt) {
+      switch (evt.keyCode) {
+        case 65:
+        case 37: activePanel.prev(); break;
+
+        case 68:
+        case 39: activePanel.next(); break;
+
+        case 87:
+        case 38: if(activePanel instanceof Inner) activePanel.jump(); break;
+
+        case 83:
+        case 40: if(activePanel instanceof Title) activePanel.jump(); break;
+      }
+    });
   })
   .catch(console.error);
 }());
