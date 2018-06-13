@@ -1,7 +1,5 @@
-
-
 #title5{
-  background-image: url(../pages/img/allef-vinicius-398692-unsplash.jpg);/*bare midlertidig bilde*/
+  background-image: url(../pages/img/livet.etterpaa.jpg);
   background-position: top;
   background-size: cover;
 }
@@ -10,13 +8,14 @@
 #title5 .hovedtittel > h1{
   font-family: "Patua One", cursive;
   font-weight: 400;
-  font-size: 3.4em;
-  color: #ffffff;
+  font-size: 3em;
+  color: #EFEFEF;
   text-align: center;
-  top: 60vh;
+  top: 55vh;
   position: absolute;
   width: 100%;
   overflow: hidden;
   z-index: 1;
-  text-shadow: 1px 1px 6px #808080;
+  text-shadow: 1px 1px 2px #0008;
+  line-height: 1.1em;
 }

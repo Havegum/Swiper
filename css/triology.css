@@ -146,7 +146,8 @@ body{
   background-repeat: no-repeat;
   background-position: center;
   background-size: 90px;
-  padding: 4% 0;
+  padding-top: 4%;
+  padding-bottom: 4%;
 }
 #litenOver{
   color: #282828;
@@ -212,6 +213,8 @@ body{
   z-index: 99;
 }
 #familie{
+  /*Familie funker ikke som forventet */
+  /* FIXME:  */
   margin-top: -100px;
   margin-bottom:-10px;
 }

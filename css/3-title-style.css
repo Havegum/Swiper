@@ -1,5 +1,5 @@
 #title3{
-  background-image: url(../pages/img/allef-vinicius-398692-unsplash.jpg);/*bare midlertidig bilde*/
+  background-image: url(../pages/img/reisen2.jpg);
   background-position: top;
   background-size: cover;
 }
@@ -9,11 +9,12 @@
   font-family: "Patua One", cursive;
   font-weight: 400;
   font-size: 3.4em;
-  color: #ffffff;
-  text-shadow: 1px 1px 6px #808080;
+  color: #EFEFEF;
+  text-shadow: 1px 1px 6px #0008;
   text-align: center;
   overflow: hidden;
-  top: 60vh;
+  top: 3em;
   position: absolute;
   width: 100%;
+  line-height: 1.1em;
 }

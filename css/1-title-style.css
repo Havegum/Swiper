@@ -1,7 +1,7 @@
 #title1{
-  background-image: url(../pages/img/1-title.jpg);
+  background-image: url(../pages/img/title1.jpg);
+  background-position: top right;
 }
-
 
 #title1 .hovedtittel > h1{
   overflow: hidden;
@@ -9,7 +9,8 @@
   text-align: left;
   position: absolute;
   left: 15vw;
-  top: 29vh;
-  font-size: 3.4em;
-  color: #333333;
+  top: 2.5em;
+  font-size: 2.8em;
+  color: #282828;
+  line-height: 1.1em;
 }

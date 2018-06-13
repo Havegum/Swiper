@@ -1,7 +1,6 @@
 #title6{
-  background-image: url(../pages/img/diana-simumpande-463374-unsplash.jpg);
+  background-image: url(../pages/img/kurdiske.kvinner.3.jpg);
 }
-
 
 #title6 .hovedtittelNederst > h1{
   font-family: "Patua One", cursive;
@@ -9,8 +8,9 @@
   font-size: 3.4em;
   color: #ffffff;
   text-align: center;
-  left: 15vw;
   position: absolute;
-  overflow: hidden;
+  width: 100%;
   top: 58vh;
+  line-height: 1.1em;
+  text-shadow: 1px 1px 2px #0008;
 }

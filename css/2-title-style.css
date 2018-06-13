@@ -1,27 +1,29 @@
-#title2{
-  background-image: url(../pages/img/1-title.jpg);
-  background-position: top left;
+#title2 {
+  background-image: url(../pages/img/title2_NEW.jpg);
+  background-position: top right;
 }
 
-#title2 .intro > h3{
+#title2 .intro > h3 {
   font-family: "Patua One", cursive;
-  font-size: 1.8em;
-  color: #BF5106;
+  font-size: 1.3em;
+  color: #EFEFEF;
   overflow: hidden;
   z-index: 2;
-  top: 6vh;
+  top: 55vh;
   position: absolute;
   padding-left: 15vw;
 }
 
 
-#title2 .hovedtittel > h1{
-  font-size: 3.4em;
+#title2 .hovedtittel > h1 {
+  font-size: 2.8em;
   overflow: hidden;
   text-align: left;
   position: absolute;
-  top: 25vh;
+  top: 2.5em;
   left: 15vw;
-  color: #333333;
   z-index: 1;
+  color: #EFEFEF;
+  text-shadow: 1px 1px 2px #0008;
+  line-height: 1.1em;
 }
