@@ -1,25 +1,25 @@
-.background-0 {
+#title0{
   background-image: url(../pages/img/allef-vinicius-398692-unsplash.jpg);
 }
 
-.hovedtittel > h1 {
-  text-align: left;
-  top: 60px;
+#title0 .hovedtittel > h1{
+  font-family: "Patua One", cursive;
+  text-align: center;
+  color: #ffffff;
+  top: 6vh;
   font-size: 3.4em;
-  margin-left: 100px;
+  position: absolute;
+  width: 100%;
 }
 
-.hovedtittelNederst > h1 {
+#title0 .hovedtittelNederst > h1{
   font-family: "Patua One", cursive;
   font-weight: 400;
   font-size: 3.4em;
   color: #ffffff;
-  text-align: left;
-  margin-left: 100px;
-  margin-top:-20px;
+  text-align: center;
+  left: 22vw;
   position: absolute;
-  top: 50%;
-  width: 100%;
   overflow: hidden;
-  top: 520px;
+  top: 58vh;
 }

@@ -264,6 +264,7 @@ function Title(obj) {
       leftArrow.src = './img/arrow-left'+dark+'.svg';
       leftArrow.classList.add('arrow');
       leftArrow.style.left = 0;
+      leftArrow.alt = 'Naviger til neste side';
       if (window.PointerEvent) {
         leftArrow.onpointerdown = () => { this.pendingNav = this.prev.bind(this); };
       } else {
@@ -278,6 +279,7 @@ function Title(obj) {
       rightArrow.src = './img/arrow-right'+dark+'.svg';
       rightArrow.classList.add('arrow');
       rightArrow.style.right = 0;
+      rightArrow.alt = 'Naviger til forrige side';
       if(window.PointerEvent) {
         rightArrow.onpointerdown = () => { this.pendingNav = this.next.bind(this); };
       } else {
@@ -292,6 +294,7 @@ function Title(obj) {
       arrowWrapper.classList.add('down-arrow-wrapper');
       let downArrow = document.createElement('img');
       downArrow.src = './img/arrow-down'+dark+'.svg';
+      downArrow.alt = 'Naviger til innsiden av saken';
       downArrow.classList.add('down-arrow');
       arrowWrapper.appendChild(downArrow);
 

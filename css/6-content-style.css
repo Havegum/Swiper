@@ -1,51 +1,159 @@
-/*
-  Overordnet styleark
-*/
-@import url('https://fonts.googleapis.com/css?family=Patua+One');
-@import url('https://fonts.googleapis.com/css?family=Raleway');
-
-img {
-  width: 100%;
-  height: auto;
-}
-
-.artikkel {
+/*Conteineren*/
+#content6 .artikkel {
   display: flex;
   flex-wrap: wrap;
 }
 
-.ingress > h4 {
+/*Typografi*/
+#content6 h4 {
   font-family: "Raleway", sans-serif;
-  font-size: 1.6em;
-  font-weight: 600;
-  color: #333333;
-  padding: 4%;
-  margin-top: .8em;
-  margin-bottom: .8em;
+  font-size: 1em;
+  font-weight: 900;
+  color: #ffffff;
+  padding-top: 1.2em;
+  padding-bottom: .2em;
 }
 
-.bread > p {
+#content6 h5 {
+  font-family: "Raleway", sans-serif;
+  font-size: .7em;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #ffffff;
+  padding-top: .2em;
+  padding-bottom: .8em;
+}
+
+#content6 p {
   font-family: "Raleway", sans-serif;
   font-size: 1em;
   font-weight: 400;
+  padding-left: 8%;
+  padding-right: 8%;
+  padding-bottom: 2em;
+  padding-top: 1em;
   color: #333333;
-  padding: 4%;
-  margin-bottom: 1.2em;
 }
 
-.artikkelboks {
-  position: relative;
+#content6 .hvitHeading,
+#content6 h1 {
+  font-family: "Patua One", cursive;
+  color: #ffffff;
+  font-size: 2em;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 1.2em;
+  margin-bottom: .5em;
 }
 
-.artikkelteksten > p {
-  position: relative;
-  bottom: 20px;
-  left:10px;
-  background-color: /*#FBFBF7*/ yellow /*testfarge*/;
+#content6 .sortHeading,
+#content6 h1 {
+  font-family: "Patua One", cursive;
   color: #333333;
+  font-size: 2em;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 1.2em;
+  margin-bottom: .5em;
+}
+
+#content6  .artikkelheading h3 {
+font-family: "Raleway", sans-serif;
+font-size: 1.6em;
+font-weight: 600;
+color: #333333;
+padding-left: 8%;
+padding-right: 8%;
+padding-bottom: 1em;
+padding-top: 1em;
+margin-top: 1em;
+}
+
+
+#content6 .mindre {
+  font-family: "Raleway", sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  padding-left: 8%;
+  padding-right: 8%;
+  padding-bottom: 1em;
+  padding-top: 1em;
+  color: #333333;
+}
+
+
+#content6 .krediteringHeading{
+  font-family: "Raleway", sans-serif;
+  font-size: 1.5em;
+  font-weight: 900;
+  color: #ffffff;
+  padding-top: 2.5em;
+  padding-bottom: .8em;
+}
+
+#content6 .hvitBrødtekst {
+  color: #ffffff;
   font-family: "Raleway", sans-serif;
   font-size: 1em;
   font-weight: 400;
-  color: #333333;
-  padding: 4%;
+  padding-left: 8%;
+  padding-right: 8%;
+  padding-bottom: 1em;
+  padding-top: 1em;
+
+}
+
+#content6 .faktaOgKreditering {
+  padding-top: 1em;
+  background-image: url(../pages/img/PKK_under.faktaboks.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+/*Bokser*/
+#content6 .PKKFaktaboks {
+  background-color: #ffffff;
+  margin: 11vh 8% 0;
+  padding: 1.2em 0;
+}
+
+#content6 .krediteringsBoks {
+  padding: 0 8% 4em;
+}
+
+#content6 .hvitBoks {
+  background-color: #ffffff;
+  position:absolute;
+  margin-top:-2.2em;
+  z-index:2;
+  margin-left: 8%;
+  margin-right: 8%;
+  padding-bottom: 1.3em;
+  padding-top: 1.3em;
+}
+
+#content6 .artikkelboks {
+  position: relative;
+  z-index:1;
+}
+
+#content6 .bildeMedBoks{
+}
+
+/*Bilder, ikoner og bakgrunner*/
+#content6 .fargetBakgrunn {
+  background-color: #663333;
+  padding-top: 23em;
+  padding-bottom: 4em;
+  margin-top: -1em;
+  z-index:0;
+}
+
+#content6  .ikon {
+  display: flex;
+  position: relative;
+  width: 15vw;
+  max-height: 3.2em;
+  padding-top: 1em;
+  padding-left: 8%;
 }

@@ -1,7 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Patua+One');
-@import url('https://fonts.googleapis.com/css?family=Raleway');
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
-
 .next-arrow{
   position: absolute;
   right: 0;
@@ -9,6 +5,7 @@
   width: 70px;
   z-index: 99;
 }
+
 .flex{
   display: flex;
   flex-direction: column;
@@ -25,6 +22,7 @@
   padding: 8%;
   padding-top: 4%;
   padding-bottom:4%;
+  z-index: 99;
 }
 .flex h1{
   font-family: "Patua One", cursive;
@@ -33,7 +31,7 @@
   color: #2A2A2D;
   text-align: center;
   padding: 5%;
-  padding-top: 0%;
+  padding-top: 2%;
   padding-bottom: 0%;
 }
 .flex h2{
@@ -43,7 +41,7 @@
   color: #EFEFEF;
   text-align: center;
   padding: 5%;
-  padding-top: 0%;
+  padding-top: 2%;
   padding-bottom: 0%;
 }
 .flex h3{
@@ -51,7 +49,7 @@
   font-weight: 400;
   font-size: 3em;
   padding: 8%;
-  padding-top: 0%;
+  padding-top: 2%;
   padding-bottom: 0%;
   color: #EFEFEF;
   margin-bottom: 2px;
@@ -68,6 +66,7 @@
   background-color: #282828;
 }
 .svart p{
+  position: relative;
   color: #EFEFEF;
 }
 .avsnitt3{
@@ -78,6 +77,12 @@
   background: linear-gradient(#5E1E14, #282828, #282828, #282828, #282828);
 }
 .avsnitt4 p{
+  color: #EFEFEF;
+}
+.kredit{
+  background-color: black;
+}
+.kredit p{
   color: #EFEFEF;
 }
 .tekstboks{
@@ -91,16 +96,22 @@
   color: white;
 }
 .boks{
-  background-color: white;
+  background-color: #EFEFEF;
   margin: 7%;
+  position: relative;
+  margin-top: -20px;
+  box-shadow: 0px 5px 10px #0002;
 }
 .boks p{
   color: #282828;
   padding-top: 0px;
+
 }
 .boks1{
-  background-color: white;
+  position:relative;
+  background-color: #EFEFEF;
   margin: 2%;
+  margin-top:-20%;
   box-shadow: 0px 5px 10px #0002;
 }
 .boks1 p{
@@ -131,12 +142,11 @@ body{
   margin-top: -2px;
 }
 #dager{
-  background-image: url("./img/dager.svg");
+  background-image: url("../pages/img/dager.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 90px;
-  padding-top: 4%;
-  padding-bottom:4%;
+  padding: 4% 0;
 }
 #litenOver{
   color: #282828;
@@ -150,15 +160,27 @@ body{
 #rødt{
   color: red;
 }
+#rødt.stor{
+  position: absolute;
+  font-size: 5em;
+  top:-0.13em;
+  z-index: -1;
+}
 #akman{
   width: 100%;
   height: auto;
+  margin-bottom: -100px;
+}
+#kartfakta{
+  display: block;
+  margin: auto;
+  margin-bottom: -20%;
 }
 #bok{
   margin-bottom: -30px;
 }
 #faktaborder{
-  width: 7%;
+  width: 10%;
   height: 8%;
   border-bottom: 9px solid #9DB382;
   margin: 8%;
@@ -166,6 +188,7 @@ body{
   margin-bottom: 0%;
 }
 #uthevet{
+  position: relative;
   font-size: 1.6em;
   font-family: "Patua One", cursive;
   margin-bottom: 0px;
@@ -177,8 +200,39 @@ body{
   top: 35px;
   z-index: 99;
   text-align: center;
+
 }
 #mappen{
   width:100vw;
   height:100vh;
+}
+#sam{
+  position: relative;
+  margin-bottom: -90px;
+  z-index: 99;
+}
+#familie{
+  margin-top: -100px;
+  margin-bottom:-10px;
+}
+#prop{
+  margin-top: -90px;
+  margin-bottom: -20px;
+}
+#faktaH{
+  background-image: url("../pages/img/flag.jpg");
+}
+#faktaH h1{
+  font-family: "Patua One", cursive;
+  font-weight: 400;
+  line-height: 0.9em;
+  font-size: calc(2em + 8vw);
+  text-align: center;
+  position: absolute;
+  top: 27%;
+  left:0;
+  right: 0;
+  color: #282828;
+  text-shadow: 0 5px 10px #0002;
+  margin: 8%;
 }

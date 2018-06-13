@@ -1,18 +1,15 @@
-.background-1{
+#title1{
   background-image: url(../pages/img/1-title.jpg);
 }
 
-.hovedtittel{
-  display:flex;
-  flex-wrap: wrap;
+
+#title1 .hovedtittel > h1{
   overflow: hidden;
   z-index: 1;
-}
-
-.hovedtittel > h1{
   text-align: left;
-  margin-left: 100px;
-  margin-top:-300px;
+  position: absolute;
+  left: 15vw;
+  top: 29vh;
   font-size: 3.4em;
-  color: #000000;
+  color: #333333;
 }

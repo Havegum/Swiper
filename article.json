@@ -1,13 +1,13 @@
 {
   "stylesheets":[
     "master.css",
-    "style.css",
     "0-title-style.css",
     "1-title-style.css",
     "2-title-style.css",
     "3-title-style.css",
     "4-title-style.css",
     "5-title-style.css",
+    "6-title-style.css",
     "6-content-style.css",
     "triology.css"
   ],
@@ -45,6 +45,11 @@
       "id":6,
       "url":"./pages/6-title.html",
       "inner":"./pages/6-content.html"
+    },
+    {
+      "id":7,
+      "url":"./pages/faktaheader.html",
+      "inner":"./pages/faktaartikkel.html"
     }
   ]
 }

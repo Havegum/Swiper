@@ -1,0 +1,16 @@
+#title6{
+  background-image: url(../pages/img/diana-simumpande-463374-unsplash.jpg);
+}
+
+
+#title6 .hovedtittelNederst > h1{
+  font-family: "Patua One", cursive;
+  font-weight: 400;
+  font-size: 3.4em;
+  color: #ffffff;
+  text-align: center;
+  left: 15vw;
+  position: absolute;
+  overflow: hidden;
+  top: 58vh;
+}

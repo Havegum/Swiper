@@ -88,4 +88,7 @@ Vårt navigasjonssystem er markant annerledes enn vanlige nettsider. Dette gjør
 Disse utfordringene er mulig å løse, men ville etter det jeg erfarer krevd en betydelig utviklingsperiode. Derfor har vi valgt å prioritere  den grunnleggende funksjonaliteten i denne omgang.
 
 
-####
+#### Om egen læring
+*Vurdér hva du har lært av dette prosjektarbeidet. Hva kan du nå som ikke du kunne i januar? Er du fornøyd med egen arbeidsinnsats?*
+
+Da jeg allerede har utdanning innen og erfaring fra grafisk design, typografi, og layout. Det jeg har lært av å jobbe med dette prosjektet har hovedsaklig med prosess å gjøre.
