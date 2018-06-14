@@ -8,13 +8,14 @@
 #title3 .hovedtittel > h1{
   font-family: "Patua One", cursive;
   font-weight: 400;
-  font-size: 3.4em;
+  font-size: 3.1em;
   color: #EFEFEF;
-  text-shadow: 1px 1px 6px #0008;
+  text-shadow: 1px 5px 10px #0008;
   text-align: center;
   overflow: hidden;
-  top: 3em;
+  top: 1em;
   position: absolute;
   width: 100%;
   line-height: 1.1em;
+  letter-spacing: 1px;
 }

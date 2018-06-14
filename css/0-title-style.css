@@ -1,15 +1,16 @@
 #title0{
-  background-image: url(../pages/img/0-title.jpg);
+  background-image: url(../pages/img/førstebilde.jpg);
 }
 
 #title0 .hovedtittel > h1{
   font-family: "Patua One", cursive;
   text-align: center;
   color: #EFEFEF;
-  top: 58vh;
-  font-size: 2.8em;
+  top: 50vh;
+  font-size: 2.6em;
   position: absolute;
   width: 100%;
-  text-shadow: 1px 1px 2px #0008;
+  text-shadow: 1px 5px 10px #0008;
   line-height: 1.1em;
+  letter-spacing: 1px;
 }

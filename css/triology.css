@@ -1,4 +1,4 @@
-.next-arrow{
+.next-arrow {
   position: absolute;
   right: 0;
   bottom: 1%;
@@ -6,7 +6,7 @@
   z-index: 99;
 }
 
-.flex{
+.flex {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -14,17 +14,18 @@
   background-color: #EFEFEF;
 }
 
-.flex p{
+.flex p {
   color: #282828;
   font-family: "Raleway", sans-serif;
   font-size: 1em;
   font-weight: 400;
   padding: 8%;
   padding-top: 4%;
-  padding-bottom:4%;
+  padding-bottom: 4%;
   z-index: 99;
 }
-.flex h1{
+
+.flex h1 {
   font-family: "Patua One", cursive;
   font-weight: 400;
   font-size: 3em;
@@ -33,8 +34,10 @@
   padding: 5%;
   padding-top: 2%;
   padding-bottom: 0%;
+  line-height: 1.0em;
 }
-.flex h2{
+
+.flex h2 {
   font-family: "Patua One", cursive;
   font-weight: 400;
   font-size: 3em;
@@ -43,8 +46,10 @@
   padding: 5%;
   padding-top: 2%;
   padding-bottom: 0%;
+  line-height: 1.0em;
 }
-.flex h3{
+
+.flex h3 {
   font-family: "Patua One", cursive;
   font-weight: 400;
   font-size: 3em;
@@ -54,94 +59,146 @@
   color: #EFEFEF;
   margin-bottom: 2px;
 }
-.flex em{
+
+.flex em {
   font-size: 1.1em;
 }
-.hvit{
+
+.hvit {
   background-color: #EFEFEF;
   margin-top: -1px;
   margin-bottom: -1px;
 }
-.svart{
+
+.svart {
   background-color: #282828;
 }
-.svart p{
+
+.svart p {
   position: relative;
   color: #EFEFEF;
 }
-.avsnitt3{
-  background: linear-gradient(#EFEFEF,#EFEFEF, orange, #B23E24);
+
+#triologi-siste .svart.kreditering,
+#faktaside .kreditering {
+  padding: 8%;
+}
+
+#triologi-siste .kreditering h3,
+#faktaside .kreditering h3 {
+  font-family: "Raleway", sans-serif;
+  font-size: 1.5em;
+  font-weight: 900;
+  color: #ffffff;
+  padding: 2.5em 0 .8em;
+}
+
+#triologi-siste .kreditering p,
+#faktaside .kreditering p {
+  font-family: "Raleway", sans-serif;
+  font-size: .7em;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #fff;
+  padding: .2em 0 .8em;
+}
+
+#triologi-siste .kreditering span,
+#faktaside .kreditering span {
+  font-family: "Raleway", sans-serif;
+  font-size: 1.43em;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #fff;
+  padding: .2em 0 .8em;
+}
+
+.avsnitt3 {
+  background: linear-gradient(#EFEFEF, #EFEFEF, orange, #B23E24);
   margin-top: -2px;
 }
-.avsnitt4{
+
+.avsnitt4 {
   background: linear-gradient(#5E1E14, #282828, #282828, #282828, #282828);
 }
-.avsnitt4 p{
+
+.avsnitt4 p {
   color: #EFEFEF;
 }
-.kredit{
+
+.kredit {
   background-color: black;
 }
-.kredit p{
+
+.kredit p {
   color: #EFEFEF;
 }
-.tekstboks{
+
+.tekstboks {
   position: absolute;
   top: 37%;
   left: 53%;
-  font-family:'Indie Flower', cursive;
+  font-family: 'Indie Flower', cursive;
   font-size: 1.4em;
   font-weight: 400;
   text-align: left;
   color: white;
 }
-.boks{
+
+.boks {
   background-color: #EFEFEF;
   margin: 7%;
   position: relative;
   margin-top: -20px;
   box-shadow: 0px 5px 10px #0002;
 }
-.boks p{
+
+.boks p {
   color: #282828;
   padding-top: 0px;
-
 }
-.boks1{
-  position:relative;
+
+.boks1 {
+  position: relative;
   background-color: #EFEFEF;
   margin: 2%;
-  margin-top:-20%;
+  margin-top: -20%;
   box-shadow: 0px 5px 10px #0002;
 }
-.boks1 p{
+
+.boks1 p {
   color: #282828;
   padding-top: 0px;
 }
 
-body{
+body {
   margin: 0px;
 }
-#sol{
+
+#sol {
   display: block;
   margin-left: auto;
   margin-right: auto;
   z-index: 99;
 }
-#sol2{
+
+#sol2 {
   display: block;
   margin-left: auto;
   margin-right: auto;
   z-index: 99;
 }
-#land{
+
+#land {
   margin-top: -3px;
   margin-bottom: -2px;
 }
-#reisen{
+
+#reisen {
   margin-top: -2px;
 }
-#dager{
+
+#dager {
   background-image: url("../pages/img/dager.svg");
   background-repeat: no-repeat;
   background-position: center;
@@ -149,7 +206,8 @@ body{
   padding-top: 4%;
   padding-bottom: 4%;
 }
-#litenOver{
+
+#litenOver {
   color: #282828;
   font-family: "Raleway", sans-serif;
   font-size: 1.4em;
@@ -158,29 +216,35 @@ body{
   padding-bottom: 0%;
   text-align: left;
 }
-#rødt{
+
+#rødt {
   color: red;
 }
-#rødt.stor{
+
+#rødt.stor {
   position: absolute;
   font-size: 5em;
-  top:-0.13em;
+  top: -0.13em;
   z-index: -1;
 }
-#akman{
+
+#akman {
   width: 100%;
   height: auto;
   margin-bottom: -100px;
 }
-#kartfakta{
+
+#kartfakta {
   display: block;
   margin: auto;
   margin-bottom: -20%;
 }
-#bok{
+
+#bok {
   margin-bottom: -30px;
 }
-#faktaborder{
+
+#faktaborder {
   width: 10%;
   height: 8%;
   border-bottom: 9px solid #9DB382;
@@ -188,44 +252,51 @@ body{
   margin-top: 0%;
   margin-bottom: 0%;
 }
-#uthevet{
+
+#uthevet {
   position: relative;
   font-size: 1.6em;
   font-family: "Patua One", cursive;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
+
 #overkart {
   width: 100%;
   position: absolute;
   top: 35px;
   z-index: 99;
   text-align: center;
+}
 
+#mappen {
+  width: 100vw;
+  height: 100vh;
 }
-#mappen{
-  width:100vw;
-  height:100vh;
-}
-#sam{
+
+#sam {
   position: relative;
   margin-bottom: -90px;
   z-index: 99;
 }
-#familie{
+
+#familie {
   /*Familie funker ikke som forventet */
   /* FIXME:  */
   margin-top: -100px;
-  margin-bottom:-10px;
+  margin-bottom: -10px;
 }
-#prop{
+
+#prop {
   margin-top: -90px;
   margin-bottom: -20px;
 }
-#faktaH{
+
+#faktaH {
   background-image: url("../pages/img/flag.jpg");
 }
-#faktaH h1{
+
+#faktaH h1 {
   font-family: "Patua One", cursive;
   font-weight: 400;
   line-height: 0.9em;
@@ -233,9 +304,9 @@ body{
   text-align: center;
   position: absolute;
   top: 27%;
-  left:0;
+  left: 0;
   right: 0;
   color: #282828;
-  text-shadow: 0 5px 10px #0002;
+  text-shadow: 0px 1px 2px #0002;
   margin: 8%;
 }

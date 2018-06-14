@@ -5,12 +5,12 @@
 #title6 .hovedtittelNederst > h1{
   font-family: "Patua One", cursive;
   font-weight: 400;
-  font-size: 3.4em;
+  font-size: 3.1em;
   color: #ffffff;
   text-align: center;
   position: absolute;
   width: 100%;
-  top: 58vh;
+  top: 50vh;
   line-height: 1.1em;
-  text-shadow: 1px 1px 2px #0008;
+  text-shadow: 1px 5px 10px #000;
 }
