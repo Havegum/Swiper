@@ -5,6 +5,7 @@
 /* --- */
 :root {
   --BG: #333;
+  --maxwidth: 1000px;
 }
 
 * {
@@ -33,7 +34,7 @@ body {
 .artikkel {
   min-height: 100vh;
   width:100vw;
-  max-width: 1000px;
+  max-width: var(--maxwidth);
 
   margin: 0 auto;
 
@@ -101,7 +102,7 @@ h1, h2, h3, h4, h5, h5 {
   object-position: center;
 
   position: absolute;
-  bottom: 2vh;
+  bottom: 12vh;
   left: 0;
   right: 0;
   margin: 0 auto;

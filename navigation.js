@@ -9,6 +9,7 @@ let title = [],
     activePanel,
     rafPending = false,
     initialTouchPos,
+    ignoreGestureEnd = false,
     lastTouchPos,
     swipes = 0,
     swipeHints = 5;
@@ -61,11 +62,25 @@ function Panel(obj) {
 
 Panel.prototype.handleGestureStart = function (evt) {
   evt.preventDefault();
+  if(evt.target.classList.contains('nav-arrow')) {
+    let classList = evt.target.classList;
+    if(classList.contains('nav-arrow-right')) {
+      this.next();
+    } else if(classList.contains('nav-arrow-left')) {
+      this.prev();
+    } else if (classList.contains('nav-arrow-down')) {
+      this.jump();
+    }
+    ignoreGestureEnd = true;
+    return;
+  }
+
+
+
+
   if(evt.touches && evt.touches.length > 1) return;
 
   this.pos.x = 0;
-
-  // console.log('Gesture start at:', this.num);
 
   if(window.PointerEvent) {
     evt.target.setPointerCapture(evt.pointerId);
@@ -78,6 +93,7 @@ Panel.prototype.handleGestureStart = function (evt) {
 };
 
 Panel.prototype.handleGestureMove = function (evt) {
+
   evt.preventDefault();
   if(rafPending) return;
   if(!initialTouchPos) return;
@@ -90,6 +106,10 @@ Panel.prototype.handleGestureMove = function (evt) {
 
 Panel.prototype.handleGestureEnd = function (evt) {
   if(evt.touches && evt.touches.length > 0) return;
+  if(ignoreGestureEnd) {
+    ignoreGestureEnd = false;
+    return;
+  }
 
   if(window.PointerEvent) {
     evt.target.releasePointerCapture(evt.pointerId);
@@ -221,7 +241,6 @@ Panel.prototype.jump = function () {
     innerPanel.content.style.zIndex = 1;
     this.realign(0, -1);
 
-
     activePanel = innerPanel;
   } else {
     titlePanel.realign(0);
@@ -262,14 +281,10 @@ function Title(obj) {
     if(nav.left) {
       let leftArrow = document.createElement('img');
       leftArrow.src = './img/arrow-left'+dark+'.svg';
-      leftArrow.classList.add('arrow');
+      leftArrow.classList.add('arrow', 'nav-arrow', 'nav-arrow-left');
       leftArrow.style.left = 0;
       leftArrow.alt = 'Naviger til neste side';
-      if (window.PointerEvent) {
-        leftArrow.onpointerdown = () => { this.pendingNav = this.prev.bind(this); };
-      } else {
-        leftArrow.onmousedown = () => { this.pendingNav = this.prev.bind(this); };
-      }
+
       content.getElementsByClassName('wrapper')[0].appendChild(leftArrow);
       this.arrows.push(leftArrow);
     }
@@ -277,14 +292,10 @@ function Title(obj) {
     if(nav.right) {
       let rightArrow = document.createElement('img');
       rightArrow.src = './img/arrow-right'+dark+'.svg';
-      rightArrow.classList.add('arrow');
+      rightArrow.classList.add('arrow', 'nav-arrow', 'nav-arrow-right');
       rightArrow.style.right = 0;
       rightArrow.alt = 'Naviger til forrige side';
-      if(window.PointerEvent) {
-        rightArrow.onpointerdown = () => { this.pendingNav = this.next.bind(this); };
-      } else {
-        rightArrow.onmousedown = () => { this.pendingNav = this.next.bind(this); };
-      }
+
       content.getElementsByClassName('wrapper')[0].appendChild(rightArrow);
       this.arrows.push(rightArrow);
     }
@@ -295,14 +306,9 @@ function Title(obj) {
       let downArrow = document.createElement('img');
       downArrow.src = './img/arrow-down'+dark+'.svg';
       downArrow.alt = 'Naviger til innsiden av saken';
-      downArrow.classList.add('down-arrow');
+      downArrow.classList.add('down-arrow', 'nav-arrow', 'nav-arrow-down');
       arrowWrapper.appendChild(downArrow);
 
-      if(window.PointerEvent) {
-        downArrow.onpointerdown = () => { this.pendingNav = this.jump.bind(this); }
-      } else {
-        downArrow.onmousedown = () => { this.pendingNav = this.jump.bind(this); }
-      }
       content.appendChild(arrowWrapper);
     }
 
@@ -420,17 +426,8 @@ function Inner(obj) {
 
   this.xhr.then(function(response) {
     let nextArrow = this.content.getElementsByClassName('next-arrow')[0];
-    if(nextArrow) {
-      if(window.PointerEvent) {
-        nextArrow.onpointerdown = this.next.bind(this);
-      } else {
-        nextArrow.onmousedown = this.next.bind(this);
-      }
-    }
+    if(nextArrow) nextArrow.classList.add('nav-arrow', 'nav-arrow-right');
   }.bind(this));
-
-  // IDEA: Scroll tracker with variable size based on scrollHeight prop
-  // updates onAnimFrame
 }
 Inner.prototype = Object.create(Panel.prototype);
 
