@@ -9,6 +9,7 @@
     "5-title-style.css",
     "6-title-style.css",
     "6-content-style.css",
+    "sisteside.css",
     "triology.css"
   ],
   "panels": [
@@ -48,8 +49,13 @@
     },
     {
       "id":7,
+      "darkUI":true,
       "url":"./pages/faktaheader.html",
       "inner":"./pages/faktaartikkel.html"
+    },
+    {
+      "id":8,
+      "url":"./pages/sisteside.html"
     }
   ]
 }
